@@ -1,6 +1,6 @@
 # InvoiceExtractor
 
-pipenv install
+## pipenv install
 
-python manage.py runserver
+## python manage.py runserver
 
