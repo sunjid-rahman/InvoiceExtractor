@@ -1,4 +1,4 @@
-# PDFExtractor
+# InvoiceExtractor
 
 pipenv install
 
