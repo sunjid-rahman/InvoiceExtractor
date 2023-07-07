@@ -8,9 +8,6 @@ django = "*"
 djangorestframework = "*"
 pypdf2 = "*"
 tabula-py = "*"
-spacy = "*"
-fuzzywuzzy = "*"
-invoice2data = "*"
 camelot-py = {extras = ["all"], version = "*"}
 
 [dev-packages]
