@@ -121,19 +121,6 @@ class ExtractPDF(APIView):
             dict_list.append(row.to_dict())
         return dict_list
 
-    @staticmethod
-    def preprocess_text(text):
-        # Example preprocessing steps: removing line breaks and extra spaces
-        text = text.replace('\n', ' ').replace('\r', '')
-        text = re.sub(' +', ' ', text)
-        return text
-
-    def extract_line_items(self, text):
-        # Example regular expressions for line item patterns
-        item_pattern = r'(?P<item>.+?)\s+(?P<quantity>\d+)\s+(?P<unit_price>\d+(\.\d+)?)\s+(?P<total>\d+(\.\d+)?)'
-        line_items = re.findall(item_pattern, text, re.IGNORECASE)
-        return line_items
-
     # Main function
     def extract_information_from_invoice(self, pdf_path):
         # Step 1: Preprocessing
@@ -144,7 +131,6 @@ class ExtractPDF(APIView):
         # ordered_items = self.extract_ordered_items(extracted_text)
         # table_data = self.extract_table_from_pdf(pdf_path)
         table = self.extract_table_using_camelot(pdf_path)
-        self.extract_line_items(extracted_text)
         invoice_info = {
             "invoice_number": str(invoice_number),
             "invoice_date": str(invoice_date),
