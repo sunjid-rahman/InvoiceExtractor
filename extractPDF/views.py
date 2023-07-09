@@ -155,6 +155,11 @@ class ExtractPDF(APIView):
 
     def post(self, request):
         if 'file' in request.FILES:
-            invoice_pdf_path = request.FILES['file']
-            invoice_info = self.extract_information_from_invoice(invoice_pdf_path)
-        return Response(data=invoice_info, status=status.HTTP_200_OK)
+            try:
+                invoice_pdf_path = request.FILES['file']
+                invoice_info = self.extract_information_from_invoice(invoice_pdf_path)
+                return Response(data=invoice_info, status=status.HTTP_200_OK)
+            except Exception as e:
+                return Response("Error while processing file", status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response("File not found", status=status.HTTP_404_NOT_FOUND)
