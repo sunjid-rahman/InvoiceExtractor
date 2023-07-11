@@ -131,11 +131,24 @@ class ExtractPDF(APIView):
         # ordered_items = self.extract_ordered_items(extracted_text)
         # table_data = self.extract_table_from_pdf(pdf_path)
         table = self.extract_table_using_camelot(pdf_path)
+        item_details = []
+        for dict in table:
+            new_dict = {("item" if key.lower() == "items" or key.lower() == "item" or key.lower() == "product" or key.lower() == "products" or key.lower() == "item name" or key.lower() == "product name" else key): value for key, value in dict.items()}
+            new_dict = {("unit_price" if "unit" in key.lower() else key): value for key, value in new_dict.items()}
+            new_dict = {("quantity" if key.lower() == "quantity" or key.lower() == "qty" else key): value for key, value in new_dict.items()}
+            new_dict = {("amount" if "amount" in key.lower() else key): value for key, value in new_dict.items()}
+            new_dict = {("discount" if "discount" in key.lower() else key): value for key, value in new_dict.items()}
+            item_details.append(new_dict)
         invoice_info = {
-            "invoice_number": str(invoice_number),
-            "invoice_date": str(invoice_date),
+            "invoice_info": {
+              "date": str(invoice_date),
+              "number": str(invoice_number)
+            },
             "total_amount": str(total_amount),
-            "items": table
+            "item_details": item_details,
+            "note": "",
+            "customer_info": {}
+
         }
         return invoice_info
 
